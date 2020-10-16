@@ -10,12 +10,12 @@ services:
     image: dec_elasticsearch
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-      ELASTIC_PASSWORD: changeme
     networks:
       - elk
 
@@ -28,6 +28,7 @@ services:
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./data/logstash:/var/lib/logstash
     ports:
       - "5044:5044"
       - "9600:9600"
@@ -46,6 +47,7 @@ services:
     image: dec_kibana
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+      - ./data/kibana:/var/lib/kibana
     ports:
       - "5601:5601"
     networks:
